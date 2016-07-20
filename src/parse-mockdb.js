@@ -260,6 +260,9 @@ var MockRESTController = {
     if (path === "batch") {
       debugPrint('BATCH', {method, path, data, options});
       result = handleBatchRequest(method, path, data);
+    } else if (path === "config") {
+      debugPrint('CONFIG', {method, path, data, options});
+      result = handleConfigRequest();
     } else {
       debugPrint('REQUEST', {method, path, data, options});
       result = handleRequest(method, path, data);
@@ -275,6 +278,13 @@ var MockRESTController = {
   ajax: function() {
     /* no-op */
   }
+}
+
+function handleConfigRequest() {
+  var response = {
+    params: {}
+  };
+  return Parse.Promise.as(respond(200, response));
 }
 
 /**

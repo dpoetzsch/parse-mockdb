@@ -1199,4 +1199,11 @@ describe('ParseMock', function(){
       assert.equal(foundUsers[0].get('name'), "T Rutlidge");
     });
   });
+
+  it.only("retrieves the parse config correctly", done => {
+    Parse.Config.get().then(cfg => {
+        console.log(cfg);
+        done();
+    }, e => { done(e); });
+  });
 });
