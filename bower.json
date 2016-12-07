@@ -1,0 +1,19 @@
+{
+  "name": "parse-mockdb",
+  "description": "Parse JS SDK Mocked Database",
+  "main": "src/parse-mockdb.js",
+  "authors": [
+    "Tyler Brock",
+    "Roddy Lindsay"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/HustleInc/parse-mockdb",
+  "dependencies": {
+    "lodash": "^4.0.0",
+    "parse": "^1.7.0"
+  },
+  "ignore": [
+    "**/.*",
+    "test"
+  ]
+}
