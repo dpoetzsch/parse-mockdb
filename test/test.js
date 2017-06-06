@@ -1490,16 +1490,17 @@ describe('ParseMock', () => {
       new Brand()
         .save()
         .then(b => {
-          b.relation('items').add(Item.createWithoutData(i.id));
-          b.relation('items').add(Item.createWithoutData(i.id));
+          b.relation('items').add(i);
+          b.relation('items').add(i);
           return b.save();
         })
+        .then(b => b.fetch())
         .then(b => {
-          const bPrime = Brand.createWithoutData(b.id);
-          bPrime.relation('items').add(Item.createWithoutData(i.id));
-          return bPrime.save();
+          b.relation('items').add(i);
+          return b.save();
         })
-        .then(b => Brand.createWithoutData(b.id).relation('items').query().find())
+        .then(b => b.fetch())
+        .then(b => b.relation('items').query().find())
         .then(items => {
           assert.equal(items.length, 1);
           assert.equal(items[0].id, i.id);
