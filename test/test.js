@@ -1485,7 +1485,7 @@ describe('ParseMock', () => {
     });
   });
 
-  it.only('should not have duplicates in relations', () =>
+  it('should not have duplicates in relations', () =>
     new Item().save().then(i =>
       new Brand()
         .save()
