@@ -1485,6 +1485,28 @@ describe('ParseMock', () => {
     });
   });
 
+  it.only('should not have duplicates in relations', () =>
+    new Item().save().then(i =>
+      new Brand()
+        .save()
+        .then(b => {
+          b.relation('items').add(Item.createWithoutData(i.id));
+          b.relation('items').add(Item.createWithoutData(i.id));
+          return b.save();
+        })
+        .then(b => {
+          const bPrime = Brand.createWithoutData(b.id);
+          bPrime.relation('items').add(Item.createWithoutData(i.id));
+          return bPrime.save();
+        })
+        .then(b => Brand.createWithoutData(b.id).relation('items').query().find())
+        .then(items => {
+          assert.equal(items.length, 1);
+          assert.equal(items[0].id, i.id);
+        })
+    )
+  );
+
   it('should handle a direct query on a relation field', () => {
     const store = new Store({ name: 'store 1' });
     const store2 = new Store({ name: 'store 2' });
