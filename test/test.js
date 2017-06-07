@@ -1485,6 +1485,29 @@ describe('ParseMock', () => {
     });
   });
 
+  it('not return correct relation query results', () =>
+    new Item().save().then(i1 =>
+      new Item().save().then(i2 =>
+        new Brand()
+          .save()
+          .then(b => {
+            b.relation('items').add(i1);
+            return b.save();
+          })
+          .then(b => {
+            b.relation('items').add(i2);
+            return b.save();
+          })
+          .then(b => b.relation('items').query().find())
+          .then(items => {
+            assert.equal(items.length, 2);
+            assert.equal(items.map(i => i.id).sort()[0], [i1.id, i2.id].sort()[0]);
+            assert.equal(items.map(i => i.id).sort()[1], [i1.id, i2.id].sort()[1]);
+          })
+      )
+    )
+  );
+
   it('should handle a direct query on a relation field', () => {
     const store = new Store({ name: 'store 1' });
     const store2 = new Store({ name: 'store 2' });
